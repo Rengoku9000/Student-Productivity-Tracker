@@ -353,4 +353,49 @@ async function checkAndSendNotifications() {
 setInterval(checkAndSendNotifications, 60 * 1000);
 
 // -----------------------------------------
+// 6️⃣ TASKS API (Backend-powered checklist)
+// -----------------------------------------
+let pendingTasks = []; // in-memory for now
+
+// Add a new task from StartGoals (Day + full subject name)
+app.post("/api/tasks/add", (req, res) => {
+  const { day, subject } = req.body;
+
+  if (!day || !subject) {
+    return res.status(400).json({ error: "Day & Subject required" });
+  }
+
+  const id = `${day}-${subject}-${Date.now()}`;
+
+  pendingTasks.push({
+    id,
+    day,        // e.g. "Day 1"
+    subject,    // e.g. "Deep Learning"
+    completed: false,
+  });
+
+  console.log("🆕 Task Added:", subject, "➡️", day);
+  res.json({ message: "Task added", id });
+});
+
+// Get all pending (not completed) tasks
+app.get("/api/tasks", (req, res) => {
+  res.json(pendingTasks.filter((task) => !task.completed));
+});
+
+// Mark a task as completed
+app.post("/api/tasks/complete", (req, res) => {
+  const { id } = req.body;
+
+  const task = pendingTasks.find((t) => t.id === id);
+  if (!task) {
+    return res.status(404).json({ error: "Task not found" });
+  }
+
+  task.completed = true;
+  console.log("✔ Task Completed:", task.subject, "➡️", task.day);
+  res.json({ message: "Task updated" });
+});
+
+// -----------------------------------------
 app.listen(5000, () => console.log("🚀 Backend running on http://localhost:5000"));
