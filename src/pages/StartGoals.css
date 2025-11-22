@@ -435,3 +435,40 @@
     flex-wrap: wrap;
   }
 }
+/* ================== CHECKLIST STYLES FOR PLAN ================== */
+
+.plan-line-with-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0.4rem;
+  padding: 6px 10px;
+  background-color: #020617;
+  border-radius: 6px;
+  border: 1px solid #1f2937;
+  transition: all 0.2s ease-in-out;
+}
+
+.plan-slot-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.plan-slot-text {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #ffffff;
+  transition: opacity 0.2s, text-decoration 0.2s;
+}
+
+.slot-checked .plan-slot-text {
+  text-decoration: line-through;
+  opacity: 0.45;
+}
+
+/* subtle hover effect */
+.plan-line-with-checkbox:hover {
+  border-color: #22c55e;
+  background-color: #03200f;
+}

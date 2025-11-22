@@ -6,6 +6,7 @@ const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false); // ⭐ State for Voice Input
   const [messages, setMessages] = useState([
     { role: "assistant", content: "SYSTEM ONLINE. How can I assist you, Operator?" }
   ]);
@@ -80,6 +81,41 @@ const Chatbot = () => {
     }
   };
 
+  // ⭐ NEW: Handle Voice Input Logic
+  const handleVoiceInput = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+      alert("Voice input is not supported in this browser. Please use Chrome or Edge.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setInput((prev) => (prev ? `${prev} ${transcript}` : transcript));
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error", event.error);
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
+
   const handleSend = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -116,7 +152,7 @@ const Chatbot = () => {
     }
   };
 
-  // Portal Content: Floating Button + Window
+  // Portal Content
   const chatbotContent = (
     <div className="chatbot-portal-overlay">
       
@@ -143,7 +179,7 @@ const Chatbot = () => {
           <div className="chat-header">
             <div className="header-title">
               <span className="status-dot"></span>
-              NEURAL UPLINK
+              NEXUS Jr.
             </div>
             <button className="close-btn" onClick={toggleChat}>×</button>
           </div>
@@ -167,10 +203,29 @@ const Chatbot = () => {
           </div>
 
           <form className="chat-input-area" onSubmit={handleSend}>
+            {/* ⭐ MIC BUTTON ADDED HERE */}
+            <button 
+              type="button" 
+              className={`mic-btn ${isListening ? 'listening' : ''}`} 
+              onClick={handleVoiceInput}
+              title="Voice Input"
+            >
+              {isListening ? (
+                <span className="mic-pulse"></span>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                  <line x1="12" y1="19" x2="12" y2="23" />
+                  <line x1="8" y1="23" x2="16" y2="23" />
+                </svg>
+              )}
+            </button>
+
             <input
               type="text"
               className="chat-input"
-              placeholder="Enter command..."
+              placeholder={isListening ? "Listening..." : "Enter command..."}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isLoading}
@@ -182,7 +237,7 @@ const Chatbot = () => {
     </div>
   );
 
-  // Render to body to break out of parent layout constraints
+  // Render via Portal
   return ReactDOM.createPortal(chatbotContent, document.body);
 };
 

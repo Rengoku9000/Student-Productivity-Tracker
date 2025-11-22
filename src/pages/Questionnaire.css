@@ -1,0 +1,499 @@
+/* ==============================
+   Global page wrapper
+   ============================== */
+
+.questionnaire-page {
+  min-height: 100%;
+  padding: 24px 16px;
+  background: radial-gradient(circle at top, #020617 0, #020617 30%, #000 80%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* ==============================
+   Main container
+   ============================== */
+
+.questionnaire-container {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto 20px auto;
+  padding: 24px 24px 20px;
+  border-radius: 20px;
+  background: radial-gradient(circle at top left, #0b1220 0, #020617 60%);
+  border: 1px solid rgba(56, 189, 248, 0.35); /* neon blue */
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb; /* slate-200 */
+  backdrop-filter: blur(18px);
+}
+
+/* ==============================
+   Typography
+   ============================== */
+
+.questionnaire-container h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin: 0 0 6px;
+  background: linear-gradient(120deg, #38bdf8, #22c55e, #a855f7);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.questionnaire-container p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.questionnaire-subtitle {
+  font-size: 0.96rem;
+  color: #9ca3af; /* gray-400 */
+  margin-bottom: 20px;
+}
+
+/* ==============================
+   Form layout
+   ============================== */
+
+.questionnaire-form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.questionnaire-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 14px 12px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.9); /* dark blue card per question */
+  border: 1px solid rgba(30, 64, 175, 0.6); /* subtle dark blue border */
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9),
+    0 10px 25px rgba(15, 23, 42, 0.8);
+}
+
+.questionnaire-label {
+  font-size: 0.97rem;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+/* ==============================
+   Inputs & Textareas
+   ============================== */
+
+.questionnaire-container textarea,
+.questionnaire-container input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease,
+    background 0.16s ease, transform 0.08s ease;
+  line-height: 1.5;
+}
+
+.questionnaire-container textarea::placeholder {
+  color: #6b7280; /* gray-500 */
+}
+
+.questionnaire-container input[type="number"] {
+  max-width: 100px;
+  text-align: center;
+}
+
+/* Focus state */
+.questionnaire-container textarea:focus,
+.questionnaire-container input[type="number"]:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7),
+    0 0 18px rgba(56, 189, 248, 0.4); /* neon glow */
+  background: rgba(15, 23, 42, 1);
+  transform: translateY(-1px);
+}
+
+/* ==============================
+   Help text
+   ============================== */
+
+.questionnaire-help {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* ==============================
+   Range slider (confidence)
+   ============================== */
+
+.questionnaire-scale-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.questionnaire-container input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f97316, #eab308, #22c55e);
+  outline: none;
+}
+
+/* Slider thumb */
+.questionnaire-container input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #020617;
+  border: 2px solid #38bdf8;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.95),
+    0 0 12px rgba(56, 189, 248, 0.7); /* neon orb */
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.questionnaire-container input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #020617;
+  border: 2px solid #38bdf8;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.95),
+    0 0 12px rgba(56, 189, 248, 0.7);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.questionnaire-container input[type="range"]:active::-webkit-slider-thumb,
+.questionnaire-container input[type="range"]:active::-moz-range-thumb {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.6),
+    0 0 16px rgba(56, 189, 248, 0.8);
+}
+
+.questionnaire-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+/* ==============================
+   Button
+   ============================== */
+
+.questionnaire-submit {
+  margin-top: 4px;
+  align-self: flex-start;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #38bdf8, #6366f1, #a855f7);
+  color: #f9fafb;
+  font-size: 0.96rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.55),
+    0 0 18px rgba(56, 189, 248, 0.45);
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  letter-spacing: 0.04em;
+}
+
+.questionnaire-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(37, 99, 235, 0.7),
+    0 0 22px rgba(56, 189, 248, 0.6);
+  filter: brightness(1.06);
+}
+
+.questionnaire-submit:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(30, 64, 175, 0.85),
+    0 0 14px rgba(56, 189, 248, 0.5);
+}
+
+/* ==============================
+   Progress report card
+   ============================== */
+
+.progress-report {
+  max-width: 960px;
+  width: 100%;
+  margin: 8px auto 24px auto;
+  padding: 22px 22px 18px;
+  border-radius: 20px;
+  background: radial-gradient(circle at top right, #020617 0, #020617 45%);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+}
+
+.progress-report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.progress-report-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.progress-report-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.progress-report-section {
+  margin-top: 12px;
+}
+
+.progress-report-heading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #bfdbfe; /* blue-200 */
+}
+
+.progress-report-text {
+  font-size: 0.93rem;
+  color: #e5e7eb;
+  line-height: 1.5;
+}
+
+.progress-report-list {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+}
+
+/* Badge / rewards chips */
+.progress-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 0, #22c55e 0, #0f172a 55%);
+  border: 1px solid rgba(34, 197, 94, 0.85);
+  font-size: 0.78rem;
+  color: #dcfce7;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+  margin-right: 6px;
+  margin-top: 4px;
+}
+
+/* Secondary neon badge */
+.progress-chip--neon {
+  background: radial-gradient(circle at 30% 0, #38bdf8 0, #0b1120 55%);
+  border: 1px solid rgba(56, 189, 248, 0.9);
+  color: #e0f2fe;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+}
+
+/* ==============================
+   Responsive tweaks
+   ============================== */
+
+@media (max-width: 640px) {
+  .questionnaire-container,
+  .progress-report {
+    padding: 18px 14px 16px;
+  }
+
+  .questionnaire-container h2 {
+    font-size: 1.5rem;
+  }
+}
+/* ============================================================
+   APPENDED — Progress Report Enhanced Styling (Non-breaking)
+   ============================================================ */
+
+/* Increase font size & brighten colors */
+.progress-report,
+.progress-report-text,
+.progress-report-heading,
+.progress-report-list li {
+  font-size: 16px !important;
+  color: #7dd3fc !important; /* sky blue */
+}
+
+/* Section titles even brighter */
+.progress-report-heading {
+  color: #a5eafe !important; /* neon sky blue */
+  letter-spacing: 0.02em;
+}
+
+/* Motivating glowing background */
+.progress-report {
+  background: radial-gradient(circle at top center,
+      rgba(56, 189, 248, 0.18) 0%,
+      rgba(2, 6, 23, 0.9) 55%,
+      rgba(0, 0, 0, 1) 90%) !important;
+  box-shadow:
+    0 0 22px rgba(56, 189, 248, 0.45),
+    0 10px 40px rgba(15, 23, 42, 0.9),
+    inset 0 0 18px rgba(56, 189, 248, 0.22) !important;
+}
+
+/* ============================================================
+   Badges — More Neon Gamified Look
+   ============================================================ */
+
+.progress-chip,
+.progress-chip--neon {
+  font-size: 0.85rem !important;
+  padding: 6px 14px !important;
+  border-radius: 999px;
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+/* Green XP badge */
+.progress-chip {
+  background: radial-gradient(circle at 30% 0,
+      #4ade80 0,
+      #052e16 60%) !important;
+  border: 1px solid rgba(34, 197, 94, 0.9) !important;
+  color: #d1fae5 !important;
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.6) !important;
+}
+
+/* Electric blue badge */
+.progress-chip--neon {
+  background: radial-gradient(circle at 30% 0,
+      #38bdf8 0,
+      #082f49 60%) !important;
+  border: 1px solid rgba(56, 189, 248, 1) !important;
+  color: #e0f2fe !important;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.75) !important;
+}
+
+/* Badge glow animation */
+@keyframes pulseGlow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 22px rgba(56, 189, 248, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+  }
+}
+
+/* Stronger header glow */
+.progress-report-title {
+  font-size: 1.45rem !important;
+  background: linear-gradient(120deg, #7dd3fc, #38bdf8, #a855f7);
+  -webkit-background-clip: text;
+  color: transparent !important;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
+}
+/* ============================================================
+   APPENDED — Navy Questionnaire Card & Neon Inputs (Non-breaking)
+   ============================================================ */
+
+/* Always keep main questionnaire card navy blue */
+.questionnaire-container {
+  background: #020824 !important; /* deep navy */
+  border-color: rgba(56, 189, 248, 0.6) !important; /* neon blue edge */
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.95),
+    0 0 18px rgba(56, 189, 248, 0.28) !important;
+}
+
+/* Each question block: navy card with neon blue edge */
+.questionnaire-field {
+  background: #020617 !important; /* very dark navy */
+  border: 1px solid rgba(56, 189, 248, 0.6) !important;
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.95),
+    0 10px 26px rgba(0, 0, 0, 0.9),
+    0 0 16px rgba(56, 189, 248, 0.45) !important;
+}
+
+/* Textareas / inputs: dark navy with soft neon blue light */
+.questionnaire-container textarea,
+.questionnaire-container input[type="number"],
+.questionnaire-container select {
+  background: #020617 !important;
+  border-color: rgba(56, 189, 248, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.95),
+    0 0 14px rgba(56, 189, 248, 0.35) !important;
+  color: #e5f2ff !important;
+}
+
+/* Focus = stronger neon glow */
+.questionnaire-container textarea:focus,
+.questionnaire-container input[type="number"]:focus,
+.questionnaire-container select:focus {
+  border-color: #38bdf8 !important;
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.9),
+    0 0 20px rgba(56, 189, 248, 0.85) !important;
+}
+
+/* Placeholder slightly brighter */
+.questionnaire-container textarea::placeholder {
+  color: #93c5fd !important; /* light sky blue */
+}
+
+/* ============================================================
+   Progress Report — Brighter but still Dark Themed
+   ============================================================ */
+
+.progress-report {
+  background: radial-gradient(circle at top center,
+      rgba(56, 189, 248, 0.24) 0%,
+      rgba(15, 23, 42, 0.98) 50%,
+      rgba(3, 7, 18, 1) 100%) !important;
+  border-color: rgba(125, 211, 252, 0.9) !important; /* bright sky blue border */
+  box-shadow:
+    0 0 26px rgba(56, 189, 248, 0.55),
+    0 18px 48px rgba(0, 0, 0, 0.95) !important;
+}
+
+/* Text inside report: brighter sky blue */
+.progress-report-text,
+.progress-report-list li {
+  color: #bae6fd !important; /* soft sky blue */
+}
+
+/* Headings slightly punchier */
+.progress-report-heading {
+  color: #e0f2fe !important; /* near-white sky blue */
+}
+
+/* Title glow stays strong but readable */
+.progress-report-title {
+  text-shadow:
+    0 0 12px rgba(56, 189, 248, 0.6),
+    0 0 20px rgba(168, 85, 247, 0.4) !important;
+}

@@ -9,12 +9,12 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 99999; /* Topmost layer */
-  pointer-events: none; /* Lets clicks pass through to the app behind */
+  z-index: 99999;
+  pointer-events: none;
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Aligns children to the RIGHT */
-  justify-content: flex-end; /* Aligns children to the BOTTOM */
+  align-items: flex-end;
+  justify-content: flex-end;
   overflow: hidden;
 }
 
@@ -22,10 +22,9 @@
    1. FLOATING BUTTON & ICON
    ========================================= */
 .cyber-float-btn {
-  pointer-events: auto; /* Re-enable clicking for the button */
+  pointer-events: auto;
   margin-right: 30px;
   margin-bottom: 30px;
-  
   width: 70px;
   height: 70px;
   background: #0a0a1a;
@@ -47,7 +46,6 @@
   background: rgba(0, 243, 255, 0.1);
 }
 
-/* Robot Image Icon Style */
 .bot-icon-img {
   width: 60%;
   height: 60%;
@@ -66,19 +64,14 @@
    2. CHAT WINDOW CONTAINER
    ========================================= */
 .cyber-chat-window {
-  pointer-events: auto; /* Re-enable clicking for the window */
-  
-  /* Absolute positioning relative to the overlay container */
+  pointer-events: auto;
   position: absolute; 
   bottom: 110px;
   right: 30px;
-  
-  /* ⭐ UPDATED SIZE: Wider and Taller */
-  width: 500px;  /* Increased from 400px */
-  height: 750px; /* Increased from 600px */
-  max-height: 85vh; /* Allow it to take up more vertical space */
+  width: 500px;
+  height: 750px;
+  max-height: 85vh;
   max-width: 90vw;
-  
   background: transparent;
   border: 1px solid rgba(0, 243, 255, 0.3);
   border-radius: 16px;
@@ -90,7 +83,6 @@
   isolation: isolate;
 }
 
-/* Background Video */
 .chat-bg-video {
   position: absolute;
   top: 0;
@@ -102,7 +94,6 @@
   opacity: 0.6;
 }
 
-/* Overlay for readability */
 .cyber-chat-window::before {
   content: "";
   position: absolute;
@@ -119,7 +110,7 @@
    3. HEADER
    ========================================= */
 .chat-header {
-  padding: 20px 25px; /* Increased padding */
+  padding: 20px 25px;
   background: rgba(0, 0, 0, 0.7);
   border-bottom: 1px solid rgba(0, 243, 255, 0.2);
   display: flex;
@@ -133,7 +124,7 @@
   color: #00f3ff;
   font-weight: 700;
   letter-spacing: 1.5px;
-  font-size: 1.1rem; /* Slightly larger text */
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -166,7 +157,7 @@
    ========================================= */
 .chat-messages {
   flex: 1;
-  padding: 25px; /* Increased padding */
+  padding: 25px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -185,7 +176,7 @@
 .bot-row { flex-direction: row; }
 
 .avatar {
-  width: 40px; /* Slightly larger avatars */
+  width: 40px;
   height: 40px;
   border-radius: 50%;
   display: flex;
@@ -203,10 +194,10 @@
 .bot-row .avatar { border-color: #ff0055; box-shadow: 0 0 8px rgba(255, 0, 85, 0.2); }
 
 .message-bubble {
-  max-width: 80%; /* Wider text bubbles */
+  max-width: 80%;
   padding: 14px 18px;
   border-radius: 14px;
-  font-size: 1rem; /* Larger font size */
+  font-size: 1rem;
   line-height: 1.6;
   position: relative;
   word-wrap: break-word;
@@ -232,7 +223,7 @@
 .highlight-text { color: #ff0055; font-weight: 700; }
 
 /* =========================================
-   5. INPUT AREA
+   5. INPUT AREA & MIC
    ========================================= */
 .chat-input-area {
   padding: 20px;
@@ -262,8 +253,6 @@
   background: rgba(0, 243, 255, 0.1);
 }
 
-.chat-input::placeholder { color: rgba(255, 255, 255, 0.4); }
-
 .send-btn {
   background: transparent;
   border: 1px solid #00f3ff;
@@ -286,11 +275,60 @@
   box-shadow: 0 0 15px #00f3ff;
 }
 
-.send-btn:disabled {
-  border-color: #555;
-  color: #555;
-  cursor: not-allowed;
-  box-shadow: none;
+/* ⭐ MIC BUTTON STYLING */
+.mic-btn {
+  background: transparent;
+  border: 1px solid #aaa;
+  color: #aaa;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.mic-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mic-btn:hover {
+  border-color: #00f3ff;
+  color: #00f3ff;
+  box-shadow: 0 0 10px #00f3ff;
+}
+
+/* Active Listening State */
+.mic-btn.listening {
+  border-color: #ff0055;
+  color: #ff0055;
+  background: rgba(255, 0, 85, 0.1);
+  animation: pulse-red 1.5s infinite;
+}
+
+/* Mic Pulse Animation */
+.mic-pulse {
+  width: 10px;
+  height: 10px;
+  background-color: #ff0055;
+  border-radius: 50%;
+  display: inline-block;
+  animation: mic-wave 1s infinite ease-in-out;
+}
+
+@keyframes mic-wave {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 0, 85, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); }
 }
 
 /* =========================================
@@ -307,7 +345,6 @@
   100% { opacity: 1; }
 }
 
-/* Typing Indicator */
 .typing {
   display: flex;
   gap: 4px;
@@ -340,9 +377,8 @@
     right: 5% !important;
     left: 5% !important;
     bottom: 90px !important;
-    height: 80vh; /* Taller on mobile too */
+    height: 80vh;
   }
-  
   .chatbot-portal-overlay {
     align-items: flex-end;
   }

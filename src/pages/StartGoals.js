@@ -43,6 +43,9 @@ const STOPWORDS = new Set([
   "very", "really", "just", "only", "into", "from", "when", "while"
 ]);
 
+// 🔹 LocalStorage key for slot checkboxes
+const SLOT_CHECKS_STORAGE_KEY = "weekPlanSlotChecks";
+
 const StartGoals = () => {
   const syllabusData = useContext(SyllabusContext);
 
@@ -79,11 +82,34 @@ const StartGoals = () => {
   // 🔹 Tab state: plan | doubts | stats
   const [activeTab, setActiveTab] = useState("plan");
 
+  // 🔹 NEW: checkbox state for each plan slot (Day + Subject)
+  // shape: { [slotKey]: true/false }
+  const [slotChecks, setSlotChecks] = useState({});
+
   // Load profile
   useEffect(() => {
     const savedProfile = JSON.parse(localStorage.getItem("profileData"));
     setProfile(savedProfile || null);
   }, []);
+
+  // Load checkbox state from localStorage once
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem(SLOT_CHECKS_STORAGE_KEY) || "{}"
+      );
+      if (saved && typeof saved === "object") {
+        setSlotChecks(saved);
+      }
+    } catch {
+      setSlotChecks({});
+    }
+  }, []);
+
+  // Persist checkbox state whenever it changes
+  useEffect(() => {
+    localStorage.setItem(SLOT_CHECKS_STORAGE_KEY, JSON.stringify(slotChecks));
+  }, [slotChecks]);
 
   const streamData = syllabusData[profile?.stream];
   const semData = streamData?.years?.[profile?.year]?.[profile?.semester] || {};
@@ -227,7 +253,6 @@ Do NOT add any explanation or extra text.`;
           return null;
         }
         if (parsed && Array.isArray(parsed.topics)) {
-          // clean them
           const cleaned = parsed.topics
             .map((t) => String(t || "").trim())
             .filter(Boolean);
@@ -265,7 +290,6 @@ Do NOT add any explanation or extra text.`;
           )}&key=${ytKey}`
         );
         if (!res.ok) {
-          // fallback to search URL
           links.push(
             `https://www.youtube.com/results?search_query=${encodeURIComponent(
               q + " tutorial"
@@ -298,7 +322,6 @@ Do NOT add any explanation or extra text.`;
   };
 
   const buildPdfUrlsForTopics = (topics) => {
-    // combine Google + GitHub hint for engineering content
     const urls = [];
     topics.slice(0, 3).forEach((t) => {
       const pdfQuery = `${t} notes filetype:pdf`;
@@ -331,7 +354,9 @@ Do NOT add any explanation or extra text.`;
       currentWeekId = week1Plan.weekId;
     } else {
       try {
-        const storedPlan = JSON.parse(localStorage.getItem("studyPlan") || "null");
+        const storedPlan = JSON.parse(
+          localStorage.getItem("studyPlan") || "null"
+        );
         if (storedPlan && storedPlan.weekId) {
           currentWeekId = storedPlan.weekId;
         }
@@ -354,7 +379,10 @@ Do NOT add any explanation or extra text.`;
 
     // 2) If AI fails, fallback
     if (!topics || topics.length === 0) {
-      topics = fallbackExtractTopics(newDoubtSubject, newDoubtTopic + " " + newDoubtNotes);
+      topics = fallbackExtractTopics(
+        newDoubtSubject,
+        newDoubtTopic + " " + newDoubtNotes
+      );
     }
 
     if (!topics || topics.length === 0) {
@@ -376,7 +404,7 @@ Do NOT add any explanation or extra text.`;
       subject: newDoubtSubject,
       topic: newDoubtTopic.trim(),
       notes: newDoubtNotes.trim(),
-      status: newDoubtStatus, // "unsolved" | "in-progress" | "solved"
+      status: newDoubtStatus,
       weekId: currentWeekId || null,
       createdAt: new Date().toISOString(),
       topics,
@@ -411,7 +439,9 @@ Do NOT add any explanation or extra text.`;
     currentWeekId = week1Plan.weekId;
   } else {
     try {
-      const storedPlan = JSON.parse(localStorage.getItem("studyPlan") || "null");
+      const storedPlan = JSON.parse(
+        localStorage.getItem("studyPlan") || "null"
+      );
       if (storedPlan && storedPlan.weekId) {
         currentWeekId = storedPlan.weekId;
       }
@@ -559,7 +589,6 @@ Do NOT add any explanation or extra text.`;
         if (exists) {
           return prevRanked.filter((s) => s !== sub);
         } else {
-          // add at end if not already present
           if (prevRanked.includes(sub)) return prevRanked;
           return [...prevRanked, sub];
         }
@@ -645,6 +674,20 @@ Do NOT add any explanation or extra text.`;
   const availableToAdd = semesterSubjects.filter(
     (sub) => !rankedSubjects.includes(sub)
   );
+
+  // 🔹 NEW: helpers for checkbox keys + toggle
+  const makeSlotKey = (planId, dayNumber, subject, suffix = "") => {
+    const safePlan = planId || "plan";
+    const safeSub = (subject || "").replace(/\s+/g, "_");
+    return `${safePlan}-day${dayNumber}-${safeSub}${suffix}`;
+  };
+
+  const handleToggleSlotCheck = (slotKey) => {
+    setSlotChecks((prev) => ({
+      ...prev,
+      [slotKey]: !prev[slotKey]
+    }));
+  };
 
   // Stats for "Progress" tab
   const totalDoubts = doubts.length;
@@ -788,23 +831,45 @@ Do NOT add any explanation or extra text.`;
             {week1Plan && (
               <>
                 <h3>📚 Week 1 Plan</h3>
-                {week1Plan.days.map((day) => (
-                  <div key={day.dayNumber} className="day-plan-card">
-                    <strong>Day {day.dayNumber}</strong>
-                    {day.slots.map((slot, i) => (
-                      <div
-                        key={i}
-                        className={
-                          isCompleted(slot.subject)
-                            ? "completed-plan-line"
-                            : "plan-line"
-                        }
-                      >
-                        ⏱ {slot.hours} hrs → {slot.subject}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                {week1Plan.days.map((day) => {
+                  const planKey = week1Plan.weekId || "week1";
+                  return (
+                    <div key={day.dayNumber} className="day-plan-card">
+                      <strong>Day {day.dayNumber}</strong>
+                      {day.slots.map((slot, i) => {
+                        const slotKey = makeSlotKey(
+                          planKey,
+                          day.dayNumber,
+                          slot.subject,
+                          "-w1"
+                        );
+                        const checked = !!slotChecks[slotKey];
+
+                        return (
+                          <div
+                            key={i}
+                            className={`plan-line-with-checkbox ${
+                              isCompleted(slot.subject)
+                                ? "completed-plan-line"
+                                : "plan-line"
+                            } ${checked ? "slot-checked" : ""}`}
+                          >
+                            {/* ✅ Checkbox on LEFT (Option 1) */}
+                            <input
+                              type="checkbox"
+                              className="plan-slot-checkbox"
+                              checked={checked}
+                              onChange={() => handleToggleSlotCheck(slotKey)}
+                            />
+                            <span className="plan-slot-text">
+                              ⏱ {slot.hours} hrs → {slot.subject}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
 
                 {/* Motivation + guidance */}
                 <div className="motivation-block">
@@ -934,23 +999,46 @@ Do NOT add any explanation or extra text.`;
             {week2Plan && (
               <>
                 <h3>📚 Next Days Plan</h3>
-                {week2Plan.days.map((day) => (
-                  <div key={day.dayNumber} className="day-plan-card">
-                    <strong>Day {day.dayNumber}</strong>
-                    {day.slots.map((slot, i) => (
-                      <div
-                        key={i}
-                        className={
-                          isCompleted(slot.subject)
-                            ? "completed-plan-line"
-                            : "plan-line"
-                        }
-                      >
-                        ⏱ {slot.hours} hrs → {slot.subject}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                {week2Plan.days.map((day) => {
+                  const planKey = week1Plan?.weekId
+                    ? `${week1Plan.weekId}-week2`
+                    : "week2";
+                  return (
+                    <div key={day.dayNumber} className="day-plan-card">
+                      <strong>Day {day.dayNumber}</strong>
+                      {day.slots.map((slot, i) => {
+                        const slotKey = makeSlotKey(
+                          planKey,
+                          day.dayNumber,
+                          slot.subject,
+                          "-w2"
+                        );
+                        const checked = !!slotChecks[slotKey];
+
+                        return (
+                          <div
+                            key={i}
+                            className={`plan-line-with-checkbox ${
+                              isCompleted(slot.subject)
+                                ? "completed-plan-line"
+                                : "plan-line"
+                            } ${checked ? "slot-checked" : ""}`}
+                          >
+                            <input
+                              type="checkbox"
+                              className="plan-slot-checkbox"
+                              checked={checked}
+                              onChange={() => handleToggleSlotCheck(slotKey)}
+                            />
+                            <span className="plan-slot-text">
+                              ⏱ {slot.hours} hrs → {slot.subject}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
               </>
             )}
           </>

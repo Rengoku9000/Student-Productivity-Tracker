@@ -33,6 +33,10 @@ import { HealthProvider } from "./pages/health/HealthContext";
 // ⭐ CHATBOT IMPORT
 import Chatbot from "./components/Chatbot";
 
+// ⭐ QUESTIONNAIRE IMPORT
+import Questionnaire from "./pages/Questionnaire";
+
+
 import "./App.css";
 
 // =========================================================
@@ -570,6 +574,7 @@ function Navigation() {
     // Analytics Removed
     { path: "/start-goals", label: "Start Goals", icon: "🚀" },
     { path: "/health", label: "Health", icon: "🩺" },
+    { path: "/questionnaire", label: "Questionnaire", icon: "📝" }, // ⭐ NEW
     { path: "/leaderboard", label: "Ranks", icon: "🏆" },
     { path: "/profile", label: "Profile", icon: "👤" },
     // Settings Removed
@@ -579,14 +584,16 @@ function Navigation() {
     <nav className="navbar">
       <div className="nav-brand">
         <span className="brand-icon">🎯</span>
-        <span className="brand-text">StudyOptimizer</span>
+        <span className="brand-text">Nexus</span>
       </div>
       <div className="nav-links">
         {navItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
-            className={`nav-link ${location.pathname === item.path ? "active" : ""}`}
+            className={`nav-link ${
+              location.pathname === item.path ? "active" : ""
+            }`}
           >
             <span className="nav-icon">{item.icon}</span>
             <span>{item.label}</span>
@@ -620,24 +627,41 @@ function App() {
                   <Route path="/health" element={<HealthPage />} />
                   <Route path="/profile" element={<Profile />} />
 
+                  {/* ⭐ NEW QUESTIONNAIRE ROUTE */}
+                  <Route path="/questionnaire" element={<Questionnaire />} />
+
                   {/* Detailed Screens */}
                   <Route path="/insights/tasks" element={<TaskAnalytics />} />
                   <Route path="/insights/study" element={<StudyPlanDetail />} />
-                  <Route path="/insights/subjects" element={<SubjectFocusDetail />} />
-                  <Route path="/insights/ai" element={<AIsuggestionsDetail />} />
-                  <Route path="/insights/missions" element={<TodayMissionsDetail />} />
-                  <Route path="/insights/dashboard" element={<DashboardDetail />} />
+                  <Route
+                    path="/insights/subjects"
+                    element={<SubjectFocusDetail />}
+                  />
+                  <Route
+                    path="/insights/ai"
+                    element={<AIsuggestionsDetail />}
+                  />
+                  <Route
+                    path="/insights/missions"
+                    element={<TodayMissionsDetail />}
+                  />
+                  <Route
+                    path="/insights/dashboard"
+                    element={<DashboardDetail />}
+                  />
                   <Route path="/motivation" element={<MotivationCenter />} />
 
                   {/* Subject Deep-Dive */}
-                  <Route path="/subject/:subjectId" element={<SubjectFocusDetail />} />
+                  <Route
+                    path="/subject/:subjectId"
+                    element={<SubjectFocusDetail />}
+                  />
                 </Routes>
               </main>
             </div>
-            
+
             {/* ⭐ CHATBOT MOVED OUTSIDE .app TO FIX POPPING ISSUE */}
             <Chatbot />
-            
           </div>
         </SyllabusContext.Provider>
       </Router>
