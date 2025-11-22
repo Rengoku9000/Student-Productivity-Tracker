@@ -1,0 +1,44 @@
+.routine-container {
+  padding: 20px;
+  color: #fff;
+}
+
+.preview-section img {
+  width: 100%;
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+button {
+  padding: 8px 14px;
+  margin-top: 12px;
+  border: none;
+  background: #22c55e;
+  color: black;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.error-text {
+  color: #ff7b7b;
+  margin-top: 8px;
+}
+
+.output-section {
+  margin-top: 20px;
+}
+
+.day-block {
+  background: #111827;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.period-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.9rem;
+}

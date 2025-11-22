@@ -1,166 +1,225 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './AIChatbot.css';
+import ReactDOM from 'react-dom'; // ⭐ Import ReactDOM for Portals
+import './Chatbot.css';
 
-function AIChatbot() {
+const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      role: 'assistant',
-      content: 'Hi! I\'m your AI study assistant. Ask me anything about your tasks, schedule, or study tips! 📚',
-      timestamp: new Date()
-    }
-  ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState([
+    { role: "assistant", content: "SYSTEM ONLINE. How can I assist you, Operator?" }
+  ]);
+
   const messagesEndRef = useRef(null);
 
+  // Auto-scroll to bottom
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isOpen]);
 
-  // Helper function to try multiple models
-  const fetchFromGemini = async (apiKey, history, currentMessage, model) => {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [...history, currentMessage],
-        systemInstruction: {
-          parts: [{ text: "You are a helpful AI study assistant. Keep responses concise and helpful for students." }]
-        }
-      })
+  const toggleChat = () => setIsOpen(!isOpen);
+
+  // Function to parse **bold** text into React elements
+  const formatMessage = (text) => {
+    if (!text) return "";
+    
+    const cleanText = text.replace(/<s>|\[\/?INST\]/g, "").trim();
+    const parts = cleanText.split(/(\*\*[^*]+\*\*)/g);
+
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={index} className="highlight-text">{part.slice(2, -2)}</strong>;
+      }
+      return part;
     });
-    return response;
   };
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  // Gather Profile, Goals, Health, Tasks, Routine & Leaderboard Data
+  const getUserContext = () => {
+    try {
+      const profileData = JSON.parse(localStorage.getItem("profileData") || "{}");
+      const userProfile = JSON.parse(localStorage.getItem("userProfile") || "{}");
+      const studyPlan = JSON.parse(localStorage.getItem("studyPlan") || "{}");
+      const healthData = JSON.parse(localStorage.getItem("healthData") || "{}");
+      const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+      
+      const completedTasks = tasks.filter(t => t.completed);
+      const pendingTasks = tasks.filter(t => !t.completed);
+      const highPriority = pendingTasks.filter(t => t.priority === 'High').map(t => t.text).join(", ");
+      const todaysRoutine = studyPlan.days?.[0]?.slots?.map(s => `${s.subject} (${s.hours}h)`).join(", ") || "No fixed routine today";
+      const xp = completedTasks.length * 150 + 500;
+      const rank = Math.max(1, 200 - completedTasks.length);
 
-    const userMessage = { role: 'user', content: input, timestamp: new Date() };
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
+      return `
+        CONTEXT: You are talking to a student named ${userProfile.name || "Student"}.
+        
+        === 👤 PROFILE ===
+        - Stream: ${profileData.stream || "Not set"}
+        - Skills: ${profileData.languages?.join(", ") || "None"}
+
+        === 🩺 HEALTH (Live) ===
+        - Sleep: ${healthData.sleep || "?"}h | Water: ${healthData.water || 0}ml | Mood: ${healthData.mood || "?"}
+        *If sleep < 6h or water < 2L, warn them gently.*
+
+        === ✅ TASKS ===
+        - Pending: ${pendingTasks.length} tasks
+        - High Priority: ${highPriority || "None"}
+        - Completed: ${completedTasks.length} tasks
+
+        === 📅 ROUTINE (Today) ===
+        - Schedule: ${todaysRoutine}
+
+        === 🏆 LEADERBOARD STATUS ===
+        - XP: ${xp}
+        - Global Rank: #${rank}
+        - Status: ${xp > 1000 ? "Elite Hacker" : "Rookie"}
+
+        INSTRUCTIONS:
+        - Be their "System Operator" (Cyberpunk persona).
+        - If they ask "what should I do?", check High Priority tasks or Routine.
+        - Motivate them with their XP/Rank if they completed tasks.
+        - Use **bold** for important items.
+        - Keep responses concise.
+      `.trim();
+    } catch (error) {
+      return "You are a helpful study assistant.";
+    }
+  };
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userMessage = { role: "user", content: input };
+    const newMessages = [...messages, userMessage];
+
+    setMessages(newMessages);
+    setInput("");
     setIsLoading(true);
 
     try {
-      // ---------------------------------------------------------
-      // 🟢 PASTE YOUR API KEY HERE AGAIN
-      // ---------------------------------------------------------
-      const API_KEY = 'AIzaSyAGAx2oKEKpii-UuAsWHpq9tTFRL8AKkRI'; 
+      const systemContext = { role: "system", content: getUserContext() };
+      const apiMessages = [systemContext, ...newMessages];
 
-      if (!API_KEY) throw new Error("Please edit src/pages/AIChatbot.js and paste your API Key.");
-
-      // Prepare Data
-      const history = messages.slice(1).map(msg => ({
-        role: msg.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: msg.content }]
-      }));
-      const currentMessage = { role: 'user', parts: [{ text: userMessage.content }] };
-
-      // 🔄 ATTEMPT 1: Try Standard Flash Model
-      let response = await fetchFromGemini(API_KEY, history, currentMessage, 'gemini-1.5-flash');
-
-      // 🔄 ATTEMPT 2: If Flash not found (404), try Legacy Pro Model
-      if (!response.ok && response.status === 404) {
-        console.log("Flash model failed, retrying with Gemini Pro...");
-        response = await fetchFromGemini(API_KEY, history, currentMessage, 'gemini-pro');
-      }
+      const response = await fetch("http://localhost:5000/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: apiMessages }),
+      });
 
       const data = await response.json();
 
-      // Error Handling
-      if (!response.ok) {
-        let errorMsg = data.error?.message || response.statusText;
-        
-        // Specific helpful error for "Not Found"
-        if (errorMsg.includes('not found') || response.status === 404) {
-          throw new Error("API Not Enabled. Go to console.cloud.google.com, search 'Generative Language API' and click ENABLE.");
-        }
-        throw new Error(errorMsg);
+      if (data.reply) {
+        setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
+      } else {
+        setMessages((prev) => [...prev, { role: "assistant", content: "⚠️ Connection lost." }]);
       }
 
-      const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!responseText) throw new Error("Empty response from AI.");
-
-      setMessages(prev => [...prev, { role: 'assistant', content: responseText, timestamp: new Date() }]);
-
     } catch (error) {
-      console.error('API Error:', error);
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: `⚠️ Error: ${error.message}`, 
-        timestamp: new Date() 
-      }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: "⚠️ System Offline." }]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const formatTime = (date) => date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  // ⭐ RENDER FUNCTION
+  // We use createPortal for the Window to ensure it pops out correctly
+  // The button stays normal so it positions relative to the app if needed, or fixed is fine.
+  // Actually, let's Portal BOTH so they are always on top of the entire webpage.
 
-  return (
+  const chatbotContent = (
     <>
-      <button 
-        className={`chatbot-float-btn ${isOpen ? 'hidden' : ''}`}
-        onClick={() => setIsOpen(true)}
-        aria-label="Open AI Assistant"
-      >
-        <span className="chatbot-icon">🤖</span>
-        <span className="chatbot-pulse"></span>
-      </button>
+      {/* Floating Button */}
+      <div className="cyber-float-btn" onClick={toggleChat}>
+        {isOpen ? (
+          <span className="close-icon">✕</span>
+        ) : (
+          <svg 
+            viewBox="0 0 24 24" 
+            className="bot-icon-svg" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          >
+            <rect x="3" y="11" width="18" height="10" rx="2" />
+            <circle cx="12" cy="5" r="2" />
+            <path d="M12 7v4" />
+            <line x1="8" y1="16" x2="8.01" y2="16" />
+            <line x1="16" y1="16" x2="16.01" y2="16" />
+          </svg>
+        )}
+      </div>
 
+      {/* Chat Window */}
       {isOpen && (
-        <div className="chatbot-popup">
-          <div className="chatbot-header">
-            <div className="chatbot-header-info">
-              <span className="chatbot-avatar">🤖</span>
-              <div>
-                <h3>AI Study Assistant</h3>
-                <span className="chatbot-status"><span className="status-dot"></span>Online</span>
-              </div>
+        <div className="cyber-chat-window">
+          {/* Background Video */}
+          <video autoPlay loop muted playsInline className="chat-bg-video">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-blue-circuit-board-232-large.mp4" type="video/mp4" />
+          </video>
+
+          <div className="chat-header">
+            <div className="header-title">
+              <span className="status-dot"></span>
+              NEURAL UPLINK
             </div>
-            <button className="chatbot-close-btn" onClick={() => setIsOpen(false)}>✕</button>
+            <button className="close-btn" onClick={toggleChat}>×</button>
           </div>
 
-          <div className="chatbot-messages">
-            {messages.map((message, index) => (
-              <div key={index} className={`message ${message.role}`}>
-                <div className="message-content">{message.content}</div>
-                <div className="message-time">{formatTime(message.timestamp)}</div>
+          <div className="chat-messages">
+            {messages.map((msg, index) => (
+              <div 
+                key={index} 
+                className={`message-row ${msg.role === 'user' ? 'user-row' : 'bot-row'}`}
+              >
+                <div className="avatar">
+                  {msg.role === 'user' ? '👤' : '🤖'}
+                </div>
+                
+                <div className="message-bubble">
+                  {formatMessage(msg.content)}
+                </div>
               </div>
             ))}
+            
             {isLoading && (
-              <div className="message assistant">
-                <div className="message-content">
-                  <div className="typing-indicator"><span></span><span></span><span></span></div>
+              <div className="message-row bot-row">
+                <div className="avatar">🤖</div>
+                <div className="message-bubble typing">
+                  <span>•</span><span>•</span><span>•</span>
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          <form className="chatbot-input-form" onSubmit={handleSendMessage}>
+          <form className="chat-input-area" onSubmit={handleSend}>
             <input
               type="text"
-              className="chatbot-input"
-              placeholder="Ask me anything..."
+              className="chat-input"
+              placeholder="Enter command..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isLoading}
             />
-            <button type="submit" className="chatbot-send-btn" disabled={!input.trim() || isLoading}>
-              {isLoading ? '⏳' : '🚀'}
+            <button type="submit" className="send-btn" disabled={isLoading}>
+              &gt;
             </button>
           </form>
-          <div className="chatbot-footer"><small>Powered by Gemini</small></div>
         </div>
       )}
     </>
   );
-}
 
-export default AIChatbot;
+  // ⭐ PORTAL MAGIC: Renders the chatbot directly into document.body
+  // This breaks it out of any "overflow: hidden" or "transform" traps in the main App.
+  return ReactDOM.createPortal(chatbotContent, document.body);
+};
+
+export default Chatbot;

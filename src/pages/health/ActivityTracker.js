@@ -22,8 +22,44 @@ const getTodayDDMMYY = () => {
   return `${day}/${month}/${year}`;
 };
 
-// mock “autodetect” like pedometer (simulated)
+// ✅ UPGRADED "mock" function: tries Google Fit via backend, falls back to random
 const mockAutoActivityData = async () => {
+  try {
+    // Call your backend, which talks to Google Fit
+    // Change the URL if your backend route is different
+    const res = await fetch("http://localhost:5000/api/googlefit/summary");
+
+    if (res.ok) {
+      const data = await res.json();
+
+      // Try to read common field names
+      const steps =
+        data.steps ??
+        data.stepCount ??
+        data.step_count ??
+        null;
+
+      const minutes =
+        data.minutes ??
+        data.activeMinutes ??
+        data.moveMinutes ??
+        null;
+
+      if (steps != null && minutes != null) {
+        return {
+          steps,
+          minutes,
+        };
+      }
+    }
+  } catch (err) {
+    console.error(
+      "Failed to fetch Google Fit data, falling back to simulated data:",
+      err
+    );
+  }
+
+  // 🔙 Original simulated behaviour (unchanged)
   const baseSteps = 6000 + Math.floor(Math.random() * 4000); // 6000–10000
   const duration = 20 + Math.floor(Math.random() * 30); // 20–50 mins
   return {
@@ -41,7 +77,7 @@ const ActivityTracker = () => {
   const [exercise, setExercise] = useState("");
   const [intensity, setIntensity] = useState("");
 
-  // on mount, simulate auto pedometer + duration
+  // on mount, autodetect pedometer + duration (now Google Fit → fallback to mock)
   useEffect(() => {
     const loadAutoActivity = async () => {
       const auto = await mockAutoActivityData();
@@ -143,7 +179,7 @@ const ActivityTracker = () => {
               : "-"}
           </div>
           <div className="activity-summary-sub">
-            Autodetected from your daily movement (simulated).
+            Autodetected from your daily movement (Google Fit or simulated).
           </div>
         </div>
 
@@ -232,8 +268,8 @@ const ActivityTracker = () => {
                   type="monotone"
                   dataKey="minutes"
                   name="Minutes"
-                  stroke="#22c55e"          // neon green
-                  strokeWidth={4.5}         // BOLD LINE 💥
+                  stroke="#22c55e" // neon green
+                  strokeWidth={4.5} // BOLD LINE 💥
                   dot={{ r: 5, stroke: "#bbf7d0", strokeWidth: 2.2 }}
                   activeDot={{ r: 8, strokeWidth: 3 }}
                 />

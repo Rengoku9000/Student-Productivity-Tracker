@@ -1,0 +1,162 @@
+.tt-wrapper {
+  margin-top: 16px;
+  color: #e5e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.tt-top-row {
+  margin-bottom: 16px;
+}
+
+.tt-sub {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.tt-file-input {
+  margin-top: 6px;
+}
+
+.tt-image-area {
+  margin-top: 16px;
+}
+
+.tt-image-wrapper {
+  position: relative;
+  display: inline-block;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #1f2937;
+  background: #020617;
+}
+
+.tt-image {
+  max-width: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+.tt-marker {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #22c55e;
+  border: 2px solid #0f172a;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+}
+
+.tt-hint {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 6px;
+}
+
+.tt-summary {
+  margin-top: 24px;
+}
+
+.tt-day-block {
+  background: #020617;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border: 1px solid #1f2937;
+}
+
+.tt-day-block h5 {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.tt-class-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 2px 0;
+}
+
+.tt-class-subject {
+  font-weight: 500;
+}
+
+.tt-class-time {
+  opacity: 0.8;
+}
+
+/* Modal styles */
+
+.tt-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.tt-modal {
+  background: #020617;
+  border-radius: 12px;
+  padding: 16px 18px;
+  width: 320px;
+  border: 1px solid #1f2937;
+}
+
+.tt-modal h4 {
+  margin: 0 0 10px;
+}
+
+.tt-form label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.tt-form input,
+.tt-form select {
+  width: 100%;
+  padding: 6px 8px;
+  margin-top: 2px;
+  border-radius: 6px;
+  border: 1px solid #374151;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 0.8rem;
+}
+
+.tt-row {
+  display: flex;
+  gap: 8px;
+}
+
+.tt-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tt-buttons button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.tt-buttons button[type="button"] {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+.tt-buttons button[type="submit"] {
+  background: #22c55e;
+  color: #020617;
+  font-weight: 600;
+}

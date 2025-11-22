@@ -1,0 +1,18 @@
+[33m61443c29[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m2eff356a[m HEAD@{1}: reset: moving to HEAD~1
+[33m1aad1cd2[m HEAD@{2}: reset: moving to HEAD~1
+[33mb1429d79[m HEAD@{3}: reset: moving to HEAD~1
+[33m2c671bda[m HEAD@{4}: reset: moving to HEAD~1
+[33m65657816[m HEAD@{5}: reset: moving to HEAD~1
+[33mec5c1d00[m HEAD@{6}: reset: moving to HEAD
+[33mec5c1d00[m HEAD@{7}: commit: hellllooo
+[33m65657816[m HEAD@{8}: commit: mynew
+[33m2c671bda[m HEAD@{9}: reset: moving to HEAD
+[33m2c671bda[m HEAD@{10}: filter-branch: rewrite
+[33mde59ad03[m HEAD@{11}: commit: Remove node_modules from repo and add to .gitignore
+[33m46dc9e92[m HEAD@{12}: commit (merge): chatbot
+[33mac888923[m HEAD@{13}: reset: moving to HEAD
+[33mac888923[m HEAD@{14}: commit: chatbot
+[33mb3935c1d[m HEAD@{15}: pull: Fast-forward
+[33m6ebd9fe8[m HEAD@{16}: Branch: renamed refs/heads/master to refs/heads/main
+[33m6ebd9fe8[m HEAD@{18}: commit (initial): first commit

@@ -5,19 +5,28 @@
   "private": true,
   "dependencies": {
     "apexcharts": "^5.3.6",
+    "cors": "^2.8.5",
     "date-fns": "^2.30.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "form-data": "^4.0.0",
+    "googleapis": "^166.0.0",
+    "multer": "^2.0.2",
+    "node-fetch": "^3.3.2",
     "react": "^18.2.0",
     "react-apexcharts": "^1.8.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.0",
     "react-scripts": "5.0.1",
-    "recharts": "^2.10.0"
+    "recharts": "^2.10.0",
+    "tesseract.js": "^6.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node server/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -35,5 +44,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rengoku9000/Student-Productivity-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rengoku9000/Student-Productivity-Tracker/issues"
   }
 }

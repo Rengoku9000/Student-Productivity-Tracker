@@ -11,10 +11,8 @@ import {
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
 import Routine from "./pages/Routine";
-import Analytics from "./pages/Analytics";
 import Profile from "./pages/Profile";
 import StartGoals from "./pages/StartGoals";
-// Settings Page Removed
 
 // ⭐ NEW LEADERBOARD IMPORT
 import Leaderboard from "./pages/Leaderboard";
@@ -569,12 +567,12 @@ function Navigation() {
     { path: "/", label: "Dashboard", icon: "📊" },
     { path: "/tasks", label: "Tasks", icon: "✅" },
     { path: "/routine", label: "Routine", icon: "📅" },
-    { path: "/analytics", label: "Analytics", icon: "📈" },
+    // Analytics Removed
     { path: "/start-goals", label: "Start Goals", icon: "🚀" },
     { path: "/health", label: "Health", icon: "🩺" },
     { path: "/leaderboard", label: "Ranks", icon: "🏆" },
     { path: "/profile", label: "Profile", icon: "👤" },
-    // ⭐ SETTINGS REMOVED FROM HERE
+    // Settings Removed
   ];
 
   return (
@@ -608,38 +606,38 @@ function App() {
       {/* Wrapped inside HealthProvider for global health state */}
       <Router>
         <SyllabusContext.Provider value={syllabusData}>
-          <div className="app">
-            <Navigation />
-            <main className="main-content">
-              <Routes>
-                {/* Main Screens */}
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/leaderboard" element={<Leaderboard />} />
-                <Route path="/tasks" element={<Tasks />} />
-                <Route path="/routine" element={<Routine />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/start-goals" element={<StartGoals />} />
-                <Route path="/health" element={<HealthPage />} />
-                <Route path="/profile" element={<Profile />} />
-                {/* ⭐ SETTINGS ROUTE REMOVED */}
+          <div className="app-wrapper">
+            <div className="app">
+              <Navigation />
+              <main className="main-content">
+                <Routes>
+                  {/* Main Screens */}
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/leaderboard" element={<Leaderboard />} />
+                  <Route path="/tasks" element={<Tasks />} />
+                  <Route path="/routine" element={<Routine />} />
+                  <Route path="/start-goals" element={<StartGoals />} />
+                  <Route path="/health" element={<HealthPage />} />
+                  <Route path="/profile" element={<Profile />} />
 
-                {/* Detailed Screens */}
-                <Route path="/insights/tasks" element={<TaskAnalytics />} />
-                <Route path="/insights/study" element={<StudyPlanDetail />} />
-                <Route path="/insights/subjects" element={<SubjectFocusDetail />} />
-                <Route path="/insights/ai" element={<AIsuggestionsDetail />} />
-                <Route path="/insights/missions" element={<TodayMissionsDetail />} />
-                <Route path="/insights/dashboard" element={<DashboardDetail />} />
-                <Route path="/motivation" element={<MotivationCenter />} />
+                  {/* Detailed Screens */}
+                  <Route path="/insights/tasks" element={<TaskAnalytics />} />
+                  <Route path="/insights/study" element={<StudyPlanDetail />} />
+                  <Route path="/insights/subjects" element={<SubjectFocusDetail />} />
+                  <Route path="/insights/ai" element={<AIsuggestionsDetail />} />
+                  <Route path="/insights/missions" element={<TodayMissionsDetail />} />
+                  <Route path="/insights/dashboard" element={<DashboardDetail />} />
+                  <Route path="/motivation" element={<MotivationCenter />} />
 
-                {/* Subject Deep-Dive */}
-                <Route path="/subject/:subjectId" element={<SubjectFocusDetail />} />
-              </Routes>
-            </main>
-
-            {/* ⭐ FLOATING CHATBOT */}
+                  {/* Subject Deep-Dive */}
+                  <Route path="/subject/:subjectId" element={<SubjectFocusDetail />} />
+                </Routes>
+              </main>
+            </div>
+            
+            {/* ⭐ CHATBOT MOVED OUTSIDE .app TO FIX POPPING ISSUE */}
             <Chatbot />
-
+            
           </div>
         </SyllabusContext.Provider>
       </Router>

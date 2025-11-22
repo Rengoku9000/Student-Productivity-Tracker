@@ -23,10 +23,16 @@ function Tasks() {
 
   const loadTasks = () => {
     const savedTasks = getFromStorage('tasks', []);
+    
+    // FIX 1: Safer sorting logic in case priority is missing
     const sortedTasks = savedTasks.sort((a, b) => {
       const priorityOrder = { High: 0, Medium: 1, Low: 2 };
-      return priorityOrder[a.priority] - priorityOrder[b.priority];
+      // Default to 'Medium' if priority is undefined
+      const pA = priorityOrder[a.priority || 'Medium'];
+      const pB = priorityOrder[b.priority || 'Medium'];
+      return pA - pB;
     });
+    
     setTasks(sortedTasks);
   };
 
@@ -59,7 +65,9 @@ function Tasks() {
 
     updatedTasks.sort((a, b) => {
       const priorityOrder = { High: 0, Medium: 1, Low: 2 };
-      return priorityOrder[a.priority] - priorityOrder[b.priority];
+      const pA = priorityOrder[a.priority || 'Medium'];
+      const pB = priorityOrder[b.priority || 'Medium'];
+      return pA - pB;
     });
 
     setTasks(updatedTasks);
@@ -78,12 +86,12 @@ function Tasks() {
   const handleEdit = (task) => {
     setEditingTask(task);
     setFormData({
-      name: task.name,
-      duration: task.duration,
-      deadline: task.deadline,
-      priority: task.priority,
-      category: task.category,
-      scheduledTime: task.scheduledTime
+      name: task.name || '',
+      duration: task.duration || '',
+      deadline: task.deadline || '',
+      priority: task.priority || 'Medium',
+      category: task.category || 'Study',
+      scheduledTime: task.scheduledTime || ''
     });
     setShowForm(true);
   };
@@ -247,28 +255,30 @@ function Tasks() {
               <div className="task-card-header">
                 <input
                   type="checkbox"
-                  checked={task.completed}
+                  checked={!!task.completed} // Ensure boolean
                   onChange={() => handleToggleComplete(task.id)}
                   className="task-checkbox"
                 />
                 <h3 className="task-title">{task.name}</h3>
-                <span className={`badge badge-${task.priority.toLowerCase()}`}>
-                  {task.priority}
+                {/* FIX 2: Added (task.priority || 'medium').toLowerCase() to prevent crash */}
+                <span className={`badge badge-${(task.priority || 'medium').toLowerCase()}`}>
+                  {task.priority || 'Medium'}
                 </span>
               </div>
 
               <div className="task-meta">
                 <div className="task-meta-item">
                   <span>📁</span>
-                  <span>{task.category}</span>
+                  <span>{task.category || 'General'}</span>
                 </div>
                 <div className="task-meta-item">
                   <span>⏱️</span>
-                  <span>{task.duration}h</span>
+                  <span>{task.duration || 0}h</span>
                 </div>
                 <div className="task-meta-item">
                   <span>📅</span>
-                  <span>{new Date(task.deadline).toLocaleDateString()}</span>
+                  {/* FIX 3: Added check for deadline existence */}
+                  <span>{task.deadline ? new Date(task.deadline).toLocaleDateString() : 'No date'}</span>
                 </div>
               </div>
 
