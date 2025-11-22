@@ -1,19 +1,24 @@
 // src/utils/storage.js
 
-export const getFromStorage = (key) => {
+// main "load" function
+export const loadFromStorage = (key, defaultValue) => {
   try {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : null;
-  } catch (e) {
-    return null;
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : defaultValue;
+  } catch (err) {
+    console.error("Storage load error:", err);
+    return defaultValue;
   }
 };
 
-// ADD THIS FUNCTION
+// main "save" function
 export const saveToStorage = (key, value) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
-  } catch (e) {
-    // Handle error (optional)
+  } catch (err) {
+    console.error("Storage save error:", err);
   }
 };
+
+// ✅ ALIAS so all old code using getFromStorage still works
+export const getFromStorage = loadFromStorage;

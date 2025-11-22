@@ -1,0 +1,126 @@
+/* src/pages/Leaderboard.css */
+.leaderboard-container {
+  padding: 30px;
+  background-color: #0d0d12;
+  min-height: 100vh;
+  color: white;
+  font-family: 'Courier New', sans-serif;
+}
+
+.cyber-title {
+  text-align: center;
+  color: #00f3ff;
+  text-shadow: 0 0 10px #00f3ff;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Leaderboard Table */
+.leaderboard-card {
+  background: rgba(20, 20, 30, 0.8);
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr;
+  padding: 15px;
+  border-bottom: 2px solid #00f3ff;
+  color: #00f3ff;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr;
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  transition: 0.2s;
+}
+
+.table-row:hover {
+  background: rgba(0, 243, 255, 0.05);
+}
+
+.highlight-user {
+  background: rgba(0, 243, 255, 0.15);
+  border: 1px solid #00f3ff;
+  border-radius: 5px;
+  margin-top: 10px;
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+}
+
+.rank { font-weight: bold; color: #888; }
+.highlight-user .rank { color: #fff; }
+
+/* Motivation Section */
+.motivation-section {
+  display: flex;
+  justify-content: center;
+}
+
+.motivation-card {
+  background: linear-gradient(145deg, #1a1a2e, #16213e);
+  border: 1px solid #ff0055;
+  padding: 30px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(255, 0, 85, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.motivation-card h2 {
+  color: #ff0055;
+  text-transform: uppercase;
+  margin-top: 0;
+}
+
+.skill-bridge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 25px 0;
+  font-size: 1.2rem;
+}
+
+.completed-skill { color: #888; text-decoration: line-through; }
+.arrow { color: #fff; font-size: 1.5rem; }
+.new-skill { color: #00f3ff; font-weight: bold; font-size: 1.4rem; text-shadow: 0 0 10px #00f3ff; }
+
+.ai-reasoning {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-left: 3px solid #00f3ff;
+  margin-bottom: 20px;
+  text-align: left;
+  color: #ddd;
+}
+
+.accept-btn {
+  background: #00f3ff;
+  color: #000;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+  transition: 0.3s;
+}
+
+.accept-btn:hover {
+  background: #fff;
+  box-shadow: 0 0 20px #00f3ff;
+  transform: scale(1.05);
+}

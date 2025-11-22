@@ -1,0 +1,194 @@
+/* Cyberpunk purple-pink Mood Tracker */
+
+.mood-cyber-container {
+  background: linear-gradient(145deg, #0b021b, #050014, #140022);
+  padding: 20px;
+  border-radius: 18px;
+  border: 2px solid #a855f7; /* neon purple edge */
+  box-shadow: 0 0 26px rgba(168, 85, 247, 0.7),
+    0 0 40px rgba(236, 72, 153, 0.45);
+  font-family: Verdana, sans-serif;
+  color: #f9fafb;
+  box-sizing: border-box;
+}
+
+.mood-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e879f9;
+  text-shadow: 0 0 14px rgba(236, 72, 153, 0.9),
+    0 0 26px rgba(168, 85, 247, 0.8);
+  margin-bottom: 4px;
+}
+
+.mood-subtitle {
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  margin-bottom: 16px;
+}
+
+/* Layout: form + stats/affirmation */
+.mood-main-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.mood-form-col {
+  flex: 1.1;
+  min-width: 260px;
+}
+
+.mood-right-col {
+  flex: 1;
+  min-width: 260px;
+}
+
+/* INPUT GROUPS – outlined + highlighted cyberpunk boxes */
+.mood-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.mood-input-group label {
+  font-size: 0.82rem;
+  color: #f5d0fe;
+}
+
+/* 🔥 Neon dialog-style inputs & textareas */
+.mood-input-group input,
+.mood-input-group textarea {
+  padding: 8px 9px;
+  border-radius: 9px;
+  border: 2px solid rgba(168, 85, 247, 0.9); /* strong outline */
+  background: radial-gradient(circle at top, #020617, #020617, #020617);
+  color: #f9fafb;
+  font-size: 0.86rem;
+  resize: vertical;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4); /* constant glow */
+  transition: border-color 0.15s ease, box-shadow 0.2s ease,
+    background 0.2s ease, transform 0.1s ease;
+}
+
+.mood-input-group input::placeholder,
+.mood-input-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* On focus → brighter, more glow, slight lift */
+.mood-input-group input:focus,
+.mood-input-group textarea:focus {
+  outline: none;
+  border-color: #ec4899;
+  box-shadow:
+    0 0 16px rgba(236, 72, 153, 0.9),
+    0 0 32px rgba(168, 85, 247, 0.7);
+  background: radial-gradient(circle at top, #020617, #0b021b);
+  transform: translateY(-1px);
+}
+
+/* Button */
+.mood-btn {
+  margin-top: 4px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #ec4899, #a855f7);
+  color: #020617;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.mood-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.95);
+  filter: brightness(1.05);
+}
+
+/* Stats cards */
+.mood-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.mood-stat-card {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(196, 181, 253, 0.9);
+  background: radial-gradient(circle at top, #020617, #020617);
+  box-shadow: 0 0 14px rgba(55, 65, 81, 0.8);
+}
+
+.mood-stat-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #e9d5ff;
+}
+
+.mood-stat-value {
+  margin-top: 4px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fce7f3;
+}
+
+/* Mood line chart inside card */
+.mood-chart-card {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(236, 72, 153, 0.7);
+  background: radial-gradient(circle at top, #020617, #020617);
+  box-shadow: 0 0 18px rgba(236, 72, 153, 0.55);
+}
+
+.mood-chart-title {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #f9a8d4;
+  margin-bottom: 6px;
+}
+
+.mood-chart-empty {
+  font-size: 0.8rem;
+  color: #e5e7eb;
+  text-align: center;
+  padding: 8px;
+}
+
+/* Affirmation display */
+.mood-affirm-card {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(236, 72, 153, 0.9);
+  background: radial-gradient(circle at top, #111827, #020617);
+  box-shadow: 0 0 22px rgba(236, 72, 153, 0.7);
+}
+
+.mood-affirm-title {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #f9a8d4;
+  margin-bottom: 6px;
+}
+
+.mood-affirm-text {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #fdf2f8;
+}
+
+.mood-affirm-empty {
+  font-size: 0.8rem;
+  color: #e5e7eb;
+}

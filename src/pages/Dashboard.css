@@ -1,140 +1,243 @@
-.dashboard {
-  animation: fadeIn 0.3s ease-in;
+/* === GAMING / HACKER DASHBOARD THEME + GLITCH === */
+
+.dashboard-container {
+  min-height: 100vh;
+  padding: 24px;
+  color: #e5e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  animation: dashFadeIn 0.45s ease-out;
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes fadeIn {
+/* Background variants */
+
+/* Matrix style */
+.dashboard-container.bg-matrix {
+  background:
+    radial-gradient(circle at top left, rgba(74, 222, 128, 0.18), transparent),
+    radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.16), transparent),
+    linear-gradient(135deg, var(--bg1, #020617), var(--bg2, #020617));
+}
+
+/* Grid style */
+.dashboard-container.bg-grid {
+  background:
+    linear-gradient(135deg, var(--bg1, #020617), var(--bg2, #020617));
+  background-image:
+    linear-gradient(rgba(148, 163, 253, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 253, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Scanlines style */
+.dashboard-container.bg-scanlines {
+  background:
+    radial-gradient(circle at top left, rgba(96, 165, 250, 0.15), transparent),
+    radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.13), transparent),
+    linear-gradient(135deg, var(--bg1, #020617), var(--bg2, #020617));
+}
+
+/* Global CRT / scanline overlay */
+.dashboard-container::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.07), transparent 55%),
+    radial-gradient(circle at bottom, rgba(0, 0, 0, 0.6), transparent 65%);
+  mix-blend-mode: soft-light;
+  opacity: 0.3;
+}
+
+/* Extra glitch overlay */
+.dashboard-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.65) 0px,
+      rgba(15, 23, 42, 0.65) 2px,
+      rgba(15, 23, 42, 0.95) 4px
+    );
+  opacity: 0.18;
+  mix-blend-mode: soft-light;
+  animation: crtFlicker 24s infinite;
+}
+
+/* Animations */
+@keyframes dashFadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+@keyframes crtFlicker {
+  0%, 88%, 100% { opacity: 0.18; transform: none; }
+  4% { opacity: 0.25; transform: translateY(-1px); }
+  5% { opacity: 0.45; transform: translateX(1px); }
+  15% { opacity: 0.3; transform: translateY(1px); }
+  16% { opacity: 0.6; transform: translate(-1px, -1px); }
+  17% { opacity: 0.18; transform: none; }
 }
 
-.stat-card {
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: transform 0.2s;
-}
+/* HEADER */
 
-.stat-card:hover {
-  transform: translateY(-2px);
-}
-
-.stat-icon {
-  font-size: 2.5rem;
-}
-
-.stat-content {
-  flex: 1;
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-text);
-  line-height: 1;
-}
-
-.stat-label {
-  color: var(--color-text-secondary);
-  font-size: 0.9rem;
-  margin-top: 0.25rem;
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 1.5rem;
-}
-
-.recommendations-list,
-.tasks-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.recommendation-item {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  transition: all 0.2s;
-}
-
-.recommendation-item:hover {
-  background: var(--color-input-bg);
-  border-color: var(--color-primary);
-}
-
-.rec-icon {
-  font-size: 1.5rem;
-}
-
-.rec-content {
-  flex: 1;
-}
-
-.rec-text {
-  color: var(--color-text);
-  margin-bottom: 0.25rem;
-}
-
-.rec-time {
-  color: var(--color-text-secondary);
-  font-size: 0.85rem;
-}
-
-.task-item {
+.dashboard-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
+  align-items: flex-start;
+  margin-bottom: 22px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(17, 24, 39, 0.98));
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(148, 163, 253, 0.45);
 }
 
-.task-info {
+.glitch-text {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--neon-main, #a855f7);
+  position: relative;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.85);
+}
+
+.glitch-text .glitch-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(1px, 1px);
+  opacity: 0.28;
+  color: var(--neon-second, #6366f1);
+}
+
+/* KPI ROW */
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.kpi-card {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 64, 175, 0.7));
+  border: 1px solid rgba(148, 163, 253, 0.6);
+  box-shadow: 0 0 20px rgba(15, 23, 42, 0.9);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+}
+
+.kpi-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.kpi-value {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--neon-main, #a855f7);
+}
+
+.kpi-extra {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* CHARTS GRID */
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.chart-card {
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(17, 24, 39, 0.98));
+  border: 1px solid rgba(55, 65, 81, 0.85);
+  box-shadow: 0 0 22px rgba(0, 0, 0, 0.8);
+}
+
+/* BOTTOM GRID — UPDATED TO 2 COLUMNS */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* PANELS */
+
+.panel-card {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(31, 41, 55, 0.98));
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+  position: relative;
+}
+
+.panel-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  background-image:
+    linear-gradient(rgba(148, 163, 253, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 253, 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* TODAY MISSIONS */
+
+.today-item {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex: 1;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.9);
+  border-left: 3px solid var(--neon-main, #a855f7);
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: 0.15s;
 }
 
-.task-name {
-  font-weight: 500;
+.today-item:hover {
+  border-left-color: var(--neon-accent, #22d3ee);
+  transform: translateY(-1px);
 }
 
-.task-deadline {
-  color: var(--color-text-secondary);
-  font-size: 0.85rem;
-}
+/* MOTIVATION PANEL */
 
-.empty-message {
+.motivation-panel {
   text-align: center;
-  padding: 2rem;
-  color: var(--color-text-secondary);
+  background: radial-gradient(circle at top, rgba(79, 70, 229, 0.7), rgba(15, 23, 42, 0.98));
+  border: 1px solid rgba(129, 140, 248, 0.9);
 }
 
-@media (max-width: 768px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
+.quote-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f9fafb;
 }
 
+/* RESPONSIVE */
+
+@media (max-width: 1024px) {
+  .bottom-grid { grid-template-columns: 1fr; }
+}
+
+.clickable { cursor: pointer; }

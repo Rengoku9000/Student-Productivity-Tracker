@@ -1,0 +1,218 @@
+/* src/components/Chatbot.css */
+
+/* --- THE FLOATING BUTTON --- */
+.cyber-float-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 70px;
+  height: 70px;
+  background: #0a0a1a;
+  border: 2px solid #00f3ff;
+  border-radius: 50%;
+  color: #00f3ff;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bot-float 3s infinite ease-in-out;
+}
+
+.cyber-float-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 40px #00f3ff;
+}
+
+/* --- THE CHAT WINDOW --- */
+.cyber-chat-window {
+  position: fixed;
+  bottom: 110px !important;
+  right: 30px !important;
+  left: auto !important;
+  width: 400px;
+  height: 600px;
+  max-height: 80vh;
+  max-width: 90vw;
+  
+  /* ⭐ FIXED: Transparent background so video shows through */
+  background: transparent; 
+
+  /* Glassmorphism border */
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 16px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+  font-family: 'Segoe UI', 'Courier New', monospace;
+  overflow: hidden;
+  
+  /* Creates a stacking context for children */
+  isolation: isolate;
+}
+
+/* --- BACKGROUND VIDEO --- */
+.chat-bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2; /* Behind overlay and content */
+  opacity: 0.8; /* ⭐ Increased opacity for better visibility */
+}
+
+/* --- OVERLAY (Lighter so video is visible) --- */
+.cyber-chat-window::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* ⭐ Lighter gradient so the video pops */
+  background: linear-gradient(to bottom, rgba(5, 5, 16, 0.4), rgba(5, 5, 16, 0.85));
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* --- HEADER --- */
+.chat-header {
+  background: rgba(0, 0, 0, 0.6); /* Slightly darker header for contrast */
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #00f3ff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 1;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #ff0055;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* --- MESSAGES AREA --- */
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1;
+}
+
+/* Message Bubbles */
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+.user-row { flex-direction: row-reverse; }
+.bot-row { flex-direction: row; }
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+.message-bubble {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  position: relative;
+  word-wrap: break-word;
+  backdrop-filter: blur(8px); /* Stronger blur for readability */
+  white-space: pre-wrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.user-row .message-bubble {
+  background: rgba(0, 243, 255, 0.2); /* Slightly more opaque */
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  color: #fff;
+  border-bottom-right-radius: 2px;
+}
+
+.bot-row .message-bubble {
+  background: rgba(255, 255, 255, 0.15); /* Slightly more opaque */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-bottom-left-radius: 2px;
+}
+
+/* --- INPUT AREA --- */
+.chat-input-area {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  border-top: 1px solid rgba(0, 243, 255, 0.2);
+  display: flex;
+  gap: 10px;
+  z-index: 1;
+}
+
+.chat-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 20px;
+  outline: none;
+}
+
+.chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.send-btn {
+  background: #00f3ff;
+  color: #000;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animation */
+@keyframes bot-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Mobile */
+@media (max-width: 550px) {
+  .cyber-chat-window {
+    width: 90%;
+    right: 5% !important;
+    left: 5% !important;
+    bottom: 90px !important;
+  }
+}

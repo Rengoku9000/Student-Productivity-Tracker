@@ -1,0 +1,109 @@
+/* CYBERPUNK THEME – FIXED TO SLEEP TRACKER ONLY */
+
+/* Prevent spillover */
+.sleep-cyber-container {
+  background: linear-gradient(145deg, #00081f, #001133, #001b4d);
+  padding: 20px;
+  border-radius: 16px;
+  border: 2px solid #00eaff;
+  box-shadow: 0 0 15px #00eaff80, 0 0 25px #ff00ff40;
+  font-family: Verdana, sans-serif;
+  color: #8b4c4c;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10; /* ensures it stays above its own card only */
+}
+
+/* Title */
+.sleep-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #00eaff;
+  text-shadow: 0 0 10px #00ffff;
+  margin-bottom: 15px;
+}
+
+/* Layout spacing inside only sleep tracker */
+.sleep-input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 20;
+}
+
+/* Input boxes */
+.sleep-input {
+  padding: 10px;
+  font-size: 14px;
+  border: 2px solid #00eaff;
+  background: #001022;
+  color: #d8faff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00eaff60 inset;
+}
+
+.sleep-input:focus {
+  outline: none;
+  border-color: #bb33bb;
+  box-shadow: 0 0 10px #870f87;
+}
+
+/* Button */
+.sleep-btn {
+  padding: 12px;
+  background: #1b6b73;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.sleep-btn:hover {
+  background: #792bcd;
+  box-shadow: 0 0 15px #155ccf, 0 0 25px #00eaff;
+}
+
+/* Chart container */
+.sleep-chart-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: #000f2a;
+  border-radius: 12px;
+  border: 2px solid #ff00ff;
+  box-shadow: 0 0 10px #ff00ff60;
+  position: relative;
+  z-index: 20;
+}
+
+/* Chart title */
+.pie-title {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: #791f79;
+  text-shadow: 0 0 8px #bb2cbb;
+}
+/* Layout: inputs + pie side by side in the same card */
+.sleep-main-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.sleep-input-col {
+  flex: 1.1;
+  min-width: 260px;
+}
+
+.sleep-chart-box {
+  flex: 1;
+  min-width: 260px;
+  margin-top: 4px;
+}
+

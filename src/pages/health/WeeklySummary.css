@@ -1,0 +1,114 @@
+/* Light-blue cyberpunk Weekly Summary */
+
+.weekly-cyber-container {
+  background: radial-gradient(circle at top, #020617, #020617, #020617);
+  padding: 20px 22px;
+  border-radius: 20px;
+  border: 2px solid #38bdf8; /* neon cyan edge */
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.7),
+    0 0 40px rgba(59, 130, 246, 0.5);
+  font-family: Verdana, sans-serif;
+  color: #e5f2ff;
+  box-sizing: border-box;
+}
+
+.weekly-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #60a5fa;
+  text-shadow: 0 0 14px rgba(59, 130, 246, 0.9),
+    0 0 26px rgba(37, 99, 235, 0.8);
+  margin-bottom: 4px;
+}
+
+.weekly-section-subtitle {
+  font-size: 0.9rem;
+  color: #cbd5f5;
+  margin-bottom: 16px;
+}
+
+/* Stats grid */
+.weekly-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.weekly-stat-card {
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #020b1b, #020617);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  box-shadow: 0 0 14px rgba(15, 23, 42, 0.9);
+}
+
+.weekly-stat-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+}
+
+.weekly-stat-value {
+  margin-top: 4px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #e5f2ff;
+}
+
+.weekly-unit {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-left: 2px;
+  color: #9ca3af;
+}
+
+/* Big chart card */
+.weekly-chart-card {
+  margin-top: 4px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(56, 189, 248, 0.85);
+  background: radial-gradient(circle at top, #020617, #020617);
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.6);
+}
+
+.weekly-chart-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #bfdbfe;
+  margin-bottom: 8px;
+}
+
+.weekly-chart-empty {
+  font-size: 0.82rem;
+  color: #cbd5f5;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Insights */
+.weekly-insights-card {
+  margin-top: 4px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  background: linear-gradient(135deg, #020617, #020617);
+}
+
+.weekly-insights-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e5f2ff;
+  margin-bottom: 6px;
+}
+
+.weekly-insights-list {
+  list-style: disc;
+  padding-left: 18px;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #dbeafe;
+}

@@ -1,0 +1,75 @@
+.subject-detail-page {
+  padding: 18px;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.detail-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #4dabf7;
+}
+
+.detail-pill {
+  padding: 6px 14px;
+  background: #172554;
+  border-radius: 20px;
+  color: #dbeafe;
+  font-size: 14px;
+}
+
+.detail-card {
+  background: #1e293b;
+  padding: 18px;
+  margin: 16px 0;
+  border-radius: 10px;
+}
+
+.detail-card-title {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #dbeafe;
+}
+
+.detail-note {
+  color: #9ca3af;
+}
+
+.detail-list {
+  list-style: none;
+  padding: 0;
+}
+
+.detail-list-item {
+  margin-bottom: 14px;
+}
+
+.detail-item-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.detail-item-sub {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.detail-progress {
+  width: 100%;
+  height: 6px;
+  background: #334155;
+  border-radius: 3px;
+  margin-top: 5px;
+}
+
+.detail-progress-fill {
+  height: 6px;
+  background: #38bdf8;
+  border-radius: 3px;
+}
