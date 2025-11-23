@@ -133,12 +133,13 @@ FUTURE ENHANCEMENTS
 CREDITS
 ====================================================
 Developer:
-Atul
-Ritika 
-Kunal
+• Atul
+• Ritika 
+• Kunal
 Project name assigned internally: "SprintX-2k25"
 
 ====================================================
 THANK YOU ❤
 ====================================================
 If you like this project, please give the repository a ★ star!
+
