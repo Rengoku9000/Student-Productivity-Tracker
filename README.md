@@ -4,6 +4,9 @@
            React · Node.js · Capacitor · Local Storage
 ====================================================
 
+## Video explation link- 
+https://drive.google.com/drive/folders/1S9T2JHfYqaeMtZVq_EGKc7FaOjxen5KN?usp=sharing
+
 A productivity companion app designed exclusively for students to
 plan goals, track study routines, manage tasks, and view performance
 analytics — all in a modern cyberpunk/hacker UI theme.
