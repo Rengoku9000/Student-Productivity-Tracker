@@ -136,6 +136,7 @@ CREDITS
 	• Atul
 	• Ritika
 	• Kunal
+	• Mohit
 
 Internal Project Title: "SprintX-2k25"
 
